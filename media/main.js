@@ -14,6 +14,10 @@
                 zoomDiagram(-0.1);
             });
 
+            document.getElementById("save-svg").addEventListener("click", () => {
+                saveSvg();
+            });
+
             document.getElementById("mermaid-diagram").addEventListener("wheel", (event) => {
                 if (event.ctrlKey) {
                     event.preventDefault();
@@ -85,5 +89,37 @@
         }
     }
 
-})();
+    async function saveSvg() {
+        const svgElement = document.querySelector("#mermaid-diagram svg");
+        if (!svgElement) {
+            console.error("No SVG element found");
+            return;
+        }
 
+        const serializer = new XMLSerializer();
+        const svgString = serializer.serializeToString(svgElement);
+        const blob = new Blob([svgString], { type: "image/svg+xml" });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = await generateFileName();
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    async function generateFileName() {
+        const date = new Date();
+        const timestamp = date.toISOString().replace(/[:.-]/g, "");
+        const prompt = `Generate a reasonable file name for an SVG diagram. Current timestamp: ${timestamp}`;
+        const response = await vscode.commands.executeCommand('vscode.executeLanguageModel', {
+            prompt,
+            maxTokens: 10,
+            temperature: 0.5,
+        });
+        return response?.text ?? `diagram_${timestamp}.svg`;
+    }
+
+})();

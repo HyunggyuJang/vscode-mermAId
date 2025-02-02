@@ -28,6 +28,8 @@ Export diagrams as markdown to share directly in places that render mermaid (lik
 
 ![outline-view-demo](./assets/gifs/05.gif)
 
+Save the rendered SVG diagram directly from the toolbar.
+
 ## Extension Settings
 
 - `mermaid.searchForExtensions`: Search for Mermaid extensions when viewing Mermaid source.

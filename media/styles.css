@@ -33,3 +33,16 @@
 .clickable .nodeLabel {
     text-decoration: underline;
 }
+
+#save-svg {
+    background-color: var(--vscode-button-background);
+    color: var(--vscode-button-foreground);
+    border: 1px solid var(--vscode-button-border);
+    border-radius: 2px;
+    padding: 4px 8px;
+    cursor: pointer;
+}
+
+#save-svg:hover {
+    background-color: var(--vscode-button-hoverBackground);
+}
